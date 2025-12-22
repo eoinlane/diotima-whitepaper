@@ -1,0 +1,177 @@
+% whitepaper.tex — a clean, professional white paper layout (pdfLaTeX)
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Page + typography ----------
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % safe even if using modern LaTeX
+\usepackage{lmodern}        % clean default font
+\usepackage{microtype}      % better spacing/kerning
+\usepackage{setspace}
+\setstretch{1.15}
+
+% ---------- Headings ----------
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.5em}{0.6em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.4em}
+
+% ---------- Headers/footers ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{White Paper Title}}
+\rhead{\textit{Draft}}
+\cfoot{\thepage}
+
+% ---------- Links + PDF metadata ----------
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={White Paper Title},
+  pdfauthor={Your Name},
+  pdfsubject={White Paper},
+  pdfkeywords={AI, Governance, Policy}
+}
+
+% ---------- Figures, tables, lists ----------
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,leftmargin=1.5em}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt,leftmargin=1.5em}
+
+% ---------- Callout boxes ----------
+\usepackage[most]{tcolorbox}
+\tcbset{
+  whitepaperbox/.style={
+    enhanced, boxrule=0.6pt, arc=3mm,
+    colback=gray!5, colframe=gray!40,
+    left=4mm,right=4mm,top=2mm,bottom=2mm
+  }
+}
+\newtcolorbox{keytakeaway}{whitepaperbox,title=\textbf{Key takeaway}}
+\newtcolorbox{riskbox}{whitepaperbox,title=\textbf{Risks \& mitigations}}
+
+% ---------- Math ----------
+\usepackage{amsmath,amssymb}
+
+% ---------- Bibliography (choose one) ----------
+% Option A (simple): thebibliography environment (no extra tooling)
+% Option B (recommended): biblatex + biber
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  maxcitenames=2,
+  maxbibnames=99
+]{biblatex}
+\addbibresource{references.bib}
+
+% ---------- Title block ----------
+\usepackage{xcolor}
+\newcommand{\subtitle}[1]{\gdef\thesubtitle{#1}}
+\newcommand{\thesubtitle}{}
+\newcommand{\reportdate}[1]{\gdef\thereportdate{#1}}
+\newcommand{\thereportdate}{}
+
+\title{\vspace{-1.0em}\textbf{White Paper Title}\\[0.25em]
+\large\thesubtitle}
+\author{Your Name \\ \small Your Organisation}
+\reportdate{\today}
+\date{\thereportdate}
+
+\begin{document}
+
+% ---------- Cover / executive page ----------
+\maketitle
+\vspace{-0.5em}
+
+\begin{abstract}
+A white paper abstract: 4–7 lines stating the problem, why it matters, your approach,
+and the headline outcomes.
+\end{abstract}
+
+\begin{keytakeaway}
+Summarise the single most important message in 2–4 sentences.
+\end{keytakeaway}
+
+\vspace{0.5em}
+\tableofcontents
+\newpage
+
+% ---------- Main body ----------
+\section{Introduction}
+\subsection{Purpose}
+What this white paper is for, who it is for, and how to use it.
+
+\subsection{Background and context}
+A short narrative plus bullets:
+\begin{itemize}
+  \item What has changed (technology / regulation / market)
+  \item Why now
+  \item What success looks like
+\end{itemize}
+
+\section{Problem statement}
+Define the problem crisply. Add evidence and citations \parencite{somekey}.
+
+\section{Approach}
+Describe your proposed approach, principles, and constraints.
+
+\subsection{Operating model}
+People/process/technology view.
+
+\subsection{Delivery plan}
+You can include a simple table:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+Phase & Duration & Output \\
+\midrule
+Discovery & 4--6 weeks & Prioritised use cases and validated requirements \\
+Pilot & 8--12 weeks & Live, constrained systems with governance controls \\
+Scale \& embed & Ongoing & Capability building and operational governance \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Metrics and evaluation}
+Include formulas if needed:
+\[
+E = 1 - \frac{T_1}{T_0}
+\qquad
+S = N (T_0 - T_1)
+\]
+Explain how you will measure impact and risk.
+
+\begin{riskbox}
+\begin{itemize}
+  \item \textbf{Risk:} Poor data quality \\
+        \textbf{Mitigation:} Data profiling, minimum quality gates, feedback loops.
+  \item \textbf{Risk:} Unclear ownership \\
+        \textbf{Mitigation:} Named business owners, RACI, governance cadence.
+\end{itemize}
+\end{riskbox}
+
+\section{Recommendations}
+A short list of concrete recommendations, each with an owner and next step.
+
+\section{Conclusion}
+Restate the key point and the immediate next action.
+
+% ---------- Appendices ----------
+\appendix
+\section{Appendix: Glossary}
+Define terms.
+
+\section{Appendix: Method}
+Methodology, assumptions, limitations.
+
+% ---------- References ----------
+\printbibliography
+
+\end{document}

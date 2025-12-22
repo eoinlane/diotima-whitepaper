@@ -1,0 +1,22 @@
+# LaTeX build artefacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.toc
+*.synctex.gz
+
+# Output PDFs (optional: see note below)
+*.pdf
+
+# Editor junk
+*.swp
+*.swo
+*~
+.DS_Store
+
