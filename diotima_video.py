@@ -1,12 +1,18 @@
 """
 Diotima: Compliance-Grade AI Infrastructure for Formative Assessment
-A manim video showcasing the whitepaper narrative.
+A manim video showcasing the whitepaper narrative — 11 separate scenes.
 
-Render with:
-    manim -pqh diotima_video.py DiotimaVideo
+Render all scenes:
+    manim -qh diotima_video.py
 
-For lower quality preview:
-    manim -pql diotima_video.py DiotimaVideo
+Render a single scene:
+    manim -qh diotima_video.py Scene01_Title
+
+Preview (low quality):
+    manim -ql diotima_video.py
+
+Concatenate all scenes (after rendering):
+    ffmpeg -f concat -safe 0 -i <(for f in media/videos/diotima_video/1080p60/Scene*.mp4; do echo "file '$PWD/$f'"; done) -c copy DiotimaCombined.mp4
 """
 
 from manim import *
@@ -24,24 +30,13 @@ ACCENT_GOLD = "#F2CC8F"
 DEEP_NAVY = "#0F2440"
 
 
-class DiotimaVideo(Scene):
-    """Full Diotima whitepaper video — single scene with sequential acts."""
+# ── Shared helpers ──────────────────────────────────────────────────────────
 
-    def construct(self):
+class DiotimaScene(Scene):
+    """Base class with shared helpers for all Diotima scenes."""
+
+    def setup(self):
         self.camera.background_color = DEEP_NAVY
-        self.act_title()
-        self.act_problem()
-        self.act_what_is_diotima()
-        self.act_lifecycle()
-        self.act_architecture()
-        self.act_human_oversight()
-        self.act_explainability()
-        self.act_model_selection()
-        self.act_data_governance()
-        self.act_compliance_moat()
-        self.act_conclusion()
-
-    # ── helpers ──────────────────────────────────────────────────────────────
 
     def clear_scene(self, fade_time=0.6):
         self.play(FadeOut(Group(*self.mobjects)), run_time=fade_time)
@@ -93,14 +88,18 @@ class DiotimaVideo(Scene):
         self.wait(1.0)
         return bullets
 
-    def fade_between(self, old_group=None):
+    def fade_between(self):
         """Fade out everything and return a clean slate."""
         self.clear_scene()
         self.wait(0.3)
 
-    # ── ACT 1: Title ────────────────────────────────────────────────────────
 
-    def act_title(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 1 — Title Card
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene01_Title(DiotimaScene):
+    def construct(self):
         # Background glow
         glow = Circle(radius=3, fill_color=TEAL, fill_opacity=0.06, stroke_width=0)
         self.add(glow)
@@ -128,9 +127,13 @@ class DiotimaVideo(Scene):
         self.wait(2)
         self.fade_between()
 
-    # ── ACT 2: The Problem ──────────────────────────────────────────────────
 
-    def act_problem(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 2 — The Compliance Gap
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene02_ComplianceGap(DiotimaScene):
+    def construct(self):
         header = self.section_header(1, "The Compliance Gap", "AI in education is high-risk by default")
 
         # Three pillars
@@ -172,9 +175,13 @@ class DiotimaVideo(Scene):
         self.wait(2)
         self.fade_between()
 
-    # ── ACT 3: What Diotima Is ──────────────────────────────────────────────
 
-    def act_what_is_diotima(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 3 — What Diotima Actually Is
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene03_WhatIsDiotima(DiotimaScene):
+    def construct(self):
         header = self.section_header(
             2, "What Diotima Actually Is",
             "A teacher-centred decision-support system"
@@ -220,9 +227,13 @@ class DiotimaVideo(Scene):
         self.wait(2)
         self.fade_between()
 
-    # ── ACT 4: Assessment Lifecycle ─────────────────────────────────────────
 
-    def act_lifecycle(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 4 — The Formative Assessment Lifecycle
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene04_Lifecycle(DiotimaScene):
+    def construct(self):
         header = self.section_header(
             3, "The Formative Assessment Lifecycle",
             "Seven stages — design through audit"
@@ -238,9 +249,7 @@ class DiotimaVideo(Scene):
             ("7", "AUDIT", "Comprehensive logging\n& auditability"),
         ]
 
-        # Build circular / arc layout
-        stage_mobs = VGroup()
-        # Use two rows: 4 on top, 3 on bottom
+        # Two rows: 4 on top, 3 on bottom
         top_row = VGroup()
         bottom_row = VGroup()
 
@@ -263,14 +272,13 @@ class DiotimaVideo(Scene):
 
         top_row.arrange(RIGHT, buff=0.25).move_to(UP * 0.2)
         bottom_row.arrange(RIGHT, buff=0.25).move_to(DOWN * 1.8)
-        stage_mobs = VGroup(top_row, bottom_row)
 
         # Animate stages sequentially
         for row in [top_row, bottom_row]:
             for stage in row:
                 self.play(FadeIn(stage, shift=UP * 0.2), run_time=0.3)
 
-        # Draw connecting arrows along the top row
+        # Draw connecting arrows
         arrows = VGroup()
         for i in range(len(top_row) - 1):
             a = Arrow(
@@ -298,9 +306,13 @@ class DiotimaVideo(Scene):
         self.wait(2.5)
         self.fade_between()
 
-    # ── ACT 5: Architecture ─────────────────────────────────────────────────
 
-    def act_architecture(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 5 — Architecture Built for Compliance
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene05_Architecture(DiotimaScene):
+    def construct(self):
         header = self.section_header(
             4, "Architecture Built for Compliance",
             "Grounded generation & narrowly scoped high-risk"
@@ -381,9 +393,13 @@ class DiotimaVideo(Scene):
         self.wait(2)
         self.fade_between()
 
-    # ── ACT 6: Human Oversight ──────────────────────────────────────────────
 
-    def act_human_oversight(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 6 — Human Oversight
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene06_HumanOversight(DiotimaScene):
+    def construct(self):
         header = self.section_header(
             5, "Human Oversight",
             "Article 14 — enforced by workflow, not policy"
@@ -435,9 +451,13 @@ class DiotimaVideo(Scene):
         self.wait(2)
         self.fade_between()
 
-    # ── ACT 7: Explainability ───────────────────────────────────────────────
 
-    def act_explainability(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 7 — Explainability
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene07_Explainability(DiotimaScene):
+    def construct(self):
         header = self.section_header(
             6, "Explainability",
             "Calibrated to role and context"
@@ -447,8 +467,8 @@ class DiotimaVideo(Scene):
         def make_column(title, color, items):
             title_t = Text(title, font_size=22, color=color, weight=BOLD)
             rows = VGroup()
-            for label, desc in items:
-                l = Text(label, font_size=15, color=color, weight=BOLD)
+            for lbl, desc in items:
+                l = Text(lbl, font_size=15, color=color, weight=BOLD)
                 d = Text(desc, font_size=13, color=WARM_WHITE)
                 row = VGroup(l, d).arrange(DOWN, aligned_edge=LEFT, buff=0.05)
                 rows.add(row)
@@ -478,9 +498,13 @@ class DiotimaVideo(Scene):
         self.wait(2.5)
         self.fade_between()
 
-    # ── ACT 8: Model Selection ──────────────────────────────────────────────
 
-    def act_model_selection(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 8 — Responsible Model Selection
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene08_ModelSelection(DiotimaScene):
+    def construct(self):
         header = self.section_header(
             7, "Responsible Model Selection",
             "Model choice = governance decision"
@@ -532,9 +556,13 @@ class DiotimaVideo(Scene):
         self.wait(2)
         self.fade_between()
 
-    # ── ACT 9: Data Governance ──────────────────────────────────────────────
 
-    def act_data_governance(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 9 — Data Governance & Privacy
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene09_DataGovernance(DiotimaScene):
+    def construct(self):
         header = self.section_header(
             8, "Data Governance & Privacy",
             "Data minimisation as a foundational principle"
@@ -574,11 +602,91 @@ class DiotimaVideo(Scene):
         self.wait(2.5)
         self.fade_between()
 
-    # ── ACT 10: Compliance Moat ─────────────────────────────────────────────
 
-    def act_compliance_moat(self):
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 10 — Post-Market Monitoring
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene10_PostMarketMonitoring(DiotimaScene):
+    def construct(self):
         header = self.section_header(
-            9, "Why Compliance Is the Moat",
+            9, "Post-Market Monitoring",
+            "Continuous assurance — not a one-time checkbox"
+        )
+
+        # Central monitoring loop diagram
+        loop_radius = 1.8
+        loop_circle = Circle(
+            radius=loop_radius, stroke_color=TEAL, stroke_width=2,
+            stroke_opacity=0.3, fill_opacity=0,
+        ).move_to(DOWN * 0.3)
+
+        # Four nodes around the loop
+        nodes_data = [
+            (UP, "Re-Evaluate", "Regular benchmark\nre-testing for drift"),
+            (RIGHT, "Detect", "Anomaly detection\nflags distribution shifts"),
+            (DOWN, "Report", "Teacher channels for\nharmful output reporting"),
+            (LEFT, "Remediate", "Time-bound workflows\nfor incident response"),
+        ]
+
+        nodes = VGroup()
+        for direction, title, desc in nodes_data:
+            pos = DOWN * 0.3 + direction * loop_radius
+            node_circle = Circle(
+                radius=0.45, fill_color=NAVY, fill_opacity=0.9,
+                stroke_color=TEAL, stroke_width=1.5,
+            ).move_to(pos)
+            title_t = Text(title, font_size=14, color=ACCENT_GOLD, weight=BOLD)
+            desc_t = Text(desc, font_size=11, color=WARM_WHITE, line_spacing=1.2)
+
+            if direction[1] > 0.5:  # UP
+                info = VGroup(desc_t, title_t).arrange(DOWN, buff=0.1)
+                info.next_to(node_circle, UP, buff=0.15)
+            elif direction[1] < -0.5:  # DOWN
+                info = VGroup(title_t, desc_t).arrange(DOWN, buff=0.1)
+                info.next_to(node_circle, DOWN, buff=0.15)
+            elif direction[0] > 0.5:  # RIGHT
+                info = VGroup(title_t, desc_t).arrange(DOWN, aligned_edge=LEFT, buff=0.1)
+                info.next_to(node_circle, RIGHT, buff=0.2)
+            else:  # LEFT
+                info = VGroup(title_t, desc_t).arrange(DOWN, aligned_edge=RIGHT, buff=0.1)
+                info.next_to(node_circle, LEFT, buff=0.2)
+
+            nodes.add(VGroup(node_circle, info))
+
+        self.play(Create(loop_circle), run_time=0.6)
+        for node in nodes:
+            self.play(FadeIn(node, scale=0.8), run_time=0.4)
+
+        # Rotating arrow to suggest continuous loop
+        arrow_arc = CurvedArrow(
+            DOWN * 0.3 + UP * loop_radius + LEFT * 0.3,
+            DOWN * 0.3 + UP * loop_radius + RIGHT * 0.3,
+            angle=-TAU * 0.8,
+            color=TEAL, stroke_width=2,
+        )
+        self.play(Create(arrow_arc), run_time=0.8)
+
+        self.wait(1)
+
+        # Bottom callout
+        callout = Text(
+            "Every teacher rejection is a compliance signal — monitoring is built into the workflow.",
+            font_size=17, color=TEAL,
+        ).move_to(DOWN * 3.3)
+        self.play(Write(callout), run_time=0.7)
+        self.wait(2)
+        self.fade_between()
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SCENE 11 — Why Compliance Is the Moat + Conclusion
+# ═══════════════════════════════════════════════════════════════════════════
+
+class Scene11_ComplianceMoat(DiotimaScene):
+    def construct(self):
+        header = self.section_header(
+            10, "Why Compliance Is the Moat",
             "Regulation is not friction — it is a filter"
         )
 
@@ -593,7 +701,6 @@ class DiotimaVideo(Scene):
 
         cols = VGroup()
         for title, color, desc in advantages:
-            # Shield-like shape using rounded rectangle
             shield = RoundedRectangle(
                 corner_radius=0.2, width=3.2, height=3.0,
                 fill_color=NAVY, fill_opacity=0.85,
@@ -612,13 +719,10 @@ class DiotimaVideo(Scene):
             LaggedStart(*[FadeIn(c, shift=UP * 0.3) for c in cols], lag_ratio=0.3),
             run_time=1.2,
         )
-        self.wait(2.5)
+        self.wait(2)
         self.fade_between()
 
-    # ── ACT 11: Conclusion ──────────────────────────────────────────────────
-
-    def act_conclusion(self):
-        # Big statement
+        # ── Conclusion ──
         line1 = Text(
             "High-risk AI in education",
             font_size=36, color=WHITE, weight=BOLD,
