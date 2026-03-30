@@ -1,0 +1,646 @@
+\documentclass[10pt, a4paper, twocolumn]{article}
+
+% ── packages ────────────────────────────────────────────────────────────────
+\usepackage[a4paper,
+            top=22mm, bottom=24mm,
+            left=15mm, right=15mm,
+            columnsep=7mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{mathptmx}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{amssymb}
+\usepackage{authblk}
+\usepackage{abstract}
+\usepackage{caption}
+
+% ── colours ─────────────────────────────────────────────────────────────────
+\definecolor{darktext}{HTML}{111111}
+\definecolor{mutedgrey}{HTML}{555555}
+\definecolor{rulegrey}{HTML}{222222}
+
+% ── hyperref ────────────────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=false,
+  hidelinks,
+  pdftitle={Diotima: Compliance-Grade AI Infrastructure for Formative Assessment in Education},
+  pdfauthor={Noval Consulting}
+}
+
+% ── typography ───────────────────────────────────────────────────────────────
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{1em}
+\frenchspacing
+
+% ── section headings — centred small-caps, like Regional Studies ─────────────
+\titleformat{\section}
+  {\centering\normalsize\bfseries\scshape}
+  {}
+  {0pt}
+  {}
+  []
+
+\titleformat{\subsection}
+  {\normalsize\itshape}
+  {}
+  {0pt}
+  {}
+
+\titlespacing{\section}{0pt}{14pt}{6pt}
+\titlespacing{\subsection}{0pt}{10pt}{3pt}
+
+% ── abstract styling ─────────────────────────────────────────────────────────
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\renewcommand{\abstractnamefont}{\normalsize\bfseries\scshape}
+\renewcommand{\abstracttextfont}{\small}
+
+% ── header / footer ──────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\small\textit{AI \& Education Policy}}
+\fancyhead[R]{\small\textit{Noval Consulting Working Paper}}
+\fancyfoot[C]{\small\thepage}
+\setlength{\headheight}{14pt}
+
+% ── bullet list style ─────────────────────────────────────────────────────────
+\setlist[itemize,1]{
+  label={--},
+  leftmargin=1.2em,
+  itemsep=1pt,
+  topsep=3pt,
+  parsep=0pt
+}
+
+% ── title block — one column, then two-column body ───────────────────────────
+\makeatletter
+\renewcommand{\maketitle}{%
+  \twocolumn[%
+    \begin{@twocolumnfalse}
+      % journal slug
+      {\small\textit{AI \& Education Policy},
+       Working Paper Series,\ pp.\ 1--12.}
+      \vspace{6pt}
+      \hrule height 0.8pt
+      \vspace{2pt}
+      \hrule height 0.2pt
+      \vspace{14pt}
+
+      % title
+      {\centering
+        {\fontsize{22}{27}\selectfont
+         \textbf{Diotima: Compliance-Grade AI Infrastructure}\\[4pt]
+         \textbf{for Formative Assessment in Education}}\\[10pt]
+
+        % authors
+        {\normalsize\scshape Noval Consulting}\\[4pt]
+
+        % affiliation
+        {\small\itshape
+          AI Consulting and EU AI Act Advisory Practice,
+          Ireland.\quad
+          Contact: \texttt{info@novalconsulting.ai}}\\[10pt]
+
+        % received line
+        {\small (Working Paper, Draft v2, 2025)}\\[12pt]
+      }
+
+      \hrule height 0.4pt
+      \vspace{10pt}
+
+      % abstract
+      \begin{abstract}
+        \noindent
+        The EU AI Act's classification of student assessment systems as high-risk under Annex~III
+        creates both a compliance obligation and a strategic design question: what does an
+        educational AI platform look like when it is built for regulatory alignment from first
+        principles, rather than retrofitted to it? This paper describes Diotima, a
+        teacher-centred formative assessment platform that treats Annex~III obligations not as
+        constraints but as architectural foundations. By grounding all AI-generated content in
+        approved curriculum materials, scoping high-risk components narrowly, enforcing human
+        oversight as a workflow property rather than a policy statement, and embedding post-market
+        monitoring as an operational discipline, Diotima demonstrates that high-risk AI in
+        education can be simultaneously pedagogically sound, technically robust, and legally
+        compliant. The paper argues that compliance-by-design is not a cost of participation in
+        regulated education markets---it is the only credible path to adoption at scale.
+      \end{abstract}
+
+      \vspace{4pt}
+      \noindent\textbf{Keywords}\quad
+        EU AI Act\quad Annex~III\quad Formative assessment\quad
+        Educational technology\quad Human oversight\quad Compliance-by-design
+
+      \vspace{12pt}
+      \hrule height 0.8pt
+      \vspace{2pt}
+      \hrule height 0.2pt
+      \vspace{16pt}
+    \end{@twocolumnfalse}
+  ]%
+}
+\makeatother
+
+% ─────────────────────────────────────────────────────────────────────────────
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+% ── INTRODUCTION ─────────────────────────────────────────────────────────────
+\section{Introduction}
+
+In proposing a new framework for AI governance in education, the EU AI Act draws
+a conclusion that practitioners have long recognised implicitly: assessment is not a
+neutral activity. \textsc{European Parliament} (2024, Art.~6) classifies AI systems
+used to assess students in formal educational settings as high-risk under Annex~III,
+Section~3(a). This classification reflects the reality that assessment shapes student
+progression and opportunity, that biased or incorrect automated feedback can cause
+material harm to learners, and that ungoverned automated evaluation can progressively
+displace the professional judgment on which good teaching depends.
+
+Yet the full implications of this regulatory position have not yet been fully absorbed
+by the market. Most educational AI products are designed as if compliance were a
+downstream concern---a documentation task to be completed once the product is built,
+rather than a constraint that should shape every architectural decision from the outset.
+
+The purpose of this paper is to describe a different approach. Diotima is a formative
+assessment platform designed from first principles as a compliance-grade system---one that
+treats Annex~III obligations not as a constraint on product development but as the
+specification for it. The paper describes Diotima's architecture, its approach to human
+oversight and explainability, its model governance framework, and its data governance
+posture. It then examines the implications of compliance-by-design for adoption in
+regulated education markets.
+
+The paper proceeds as follows. Section~2 establishes the regulatory context and
+identifies three foundational challenges that any serious educational AI platform must
+address. Section~3 describes Diotima's core design proposition and how it responds to
+each of those challenges. Section~4 provides a system overview, including a mapping of
+governance dimensions to lifecycle stages. Sections~5 through~10 examine the principal
+governance dimensions in turn, tracing each to its regulatory obligation and its
+expression in the system design. Section~11 examines the implications of
+compliance-by-design for market adoption. Section~12 concludes.
+
+% ── REGULATORY CONTEXT ───────────────────────────────────────────────────────
+\section{AI in Education Is High-Risk by Default}
+
+The EU AI Act's Annex~III classification of educational assessment AI as high-risk
+reflects a straightforward chain of reasoning. Assessment shapes student progression
+and opportunity. Biased or incorrect AI outputs can materially harm learners. And if
+automated evaluation is allowed to operate without robust human governance, it
+progressively displaces the professional judgment that should sit at the centre of any
+assessment decision.
+
+The high-risk designation applies even where AI is positioned as formative rather than
+summative. Any system that analyses student responses, structures performance
+interpretation, and generates feedback can meaningfully influence outcomes---regardless
+of how it is labelled. The classification covers not just systems that assign official
+grades, but any system whose outputs interact with the assessment process in a way that
+could affect how a learner's performance is perceived or recorded (\textsc{European
+Parliament}, 2024, Annex~III, s.~3(a)).
+
+Diotima therefore adopts a conservative, regulator-aligned position from the outset: it
+is treated as a high-risk system by design. That choice is not defensive---it is
+strategic. Every architectural decision, every governance mechanism, every operational
+workflow is oriented by that classification.
+
+Three specific challenges follow from this classification that any serious educational
+AI platform must address. The first is \textit{hallucination and curriculum drift}: AI
+language models generate plausible but factually incorrect or pedagogically misaligned
+outputs with no inherent connection to the curriculum being assessed. In formative
+assessment contexts, where AI-generated content directly structures how student
+performance is interpreted, this is not merely a quality problem but a safety one with
+material consequences for learner outcomes. The second is \textit{automation bias and
+professional displacement}: well-documented tendencies in human-computer interaction
+lead users to accept or defer to automated outputs with insufficient critical scrutiny.
+In educational assessment, this risk takes the specific form of teachers progressively
+deferring to AI-generated evaluations rather than exercising independent professional
+judgment---an outcome that Annex~III's oversight requirements are expressly designed to
+prevent. The third is \textit{the governance architecture deficit}: the majority of
+AI products currently deployed in educational settings were not designed for regulatory
+alignment. Compliance has been treated as a retrospective documentation exercise,
+creating a structural gap between the obligations that high-risk systems carry and the
+architectures that purport to meet them.
+
+% ── CORE PROPOSITION ─────────────────────────────────────────────────────────
+\section{Diotima's Core Design Proposition}
+
+The most important thing to establish is what Diotima is \textit{not}. It is not an
+AI grader. It does not autonomously assign marks, determine outcomes, or make binding
+decisions about student performance. Diotima is a teacher-centred decision-support
+system for formative assessment---its function is to expand the scope and consistency
+of formative feedback while preserving the judgment calls that professional expertise
+requires, not to replace the professional authority at the heart of good teaching.
+
+Each of the three challenges identified in Section~2 has a direct architectural
+response. Hallucination and curriculum drift are addressed through mandatory grounding
+of all AI-generated content in approved, licensed source materials---the model cannot
+generate content that is not explicitly linked to curriculum topics and approved texts.
+Automation bias and professional displacement are addressed by making human oversight a
+structural property of the workflow rather than a policy aspiration---no AI output is
+ever presented to a student without teacher confirmation, and the system is technically
+incapable of routing unreviewed outputs to learners. The governance architecture deficit
+is addressed by treating Annex~III obligations as the design specification from first
+principles, so that compliance evidence is generated as a byproduct of normal operation
+rather than assembled retrospectively.
+
+In practice, Diotima supports teachers to: generate curriculum-aligned questions
+grounded in approved source materials; apply consistent, transparent rubrics; provide
+formative feedback at a scale that would otherwise be impossible; and support student
+reflection and iterative improvement rather than delivering a single terminal judgment.
+
+The constraint that structures everything else: no AI output is final without human
+confirmation. Teachers approve all assessment content. Teachers validate all evaluative
+outputs. The AI proposes; the teacher decides.
+
+% ── SYSTEM OVERVIEW ──────────────────────────────────────────────────────────
+\section{System Overview}
+
+Diotima supports the complete formative assessment lifecycle from initial design through
+to student reflection and audit. Every stage is engineered to support explainability,
+traceability, and human oversight---not as retrospective additions, but as structural
+properties of the workflow itself.
+
+The lifecycle proceeds through seven stages: (1)~curriculum-grounded assessment design,
+in which teachers select topics, subtopics, and Bloom's Taxonomy cognitive levels
+(\textsc{Bloom et al.}, 1956) and the system generates candidate content from approved
+source materials; (2)~teacher pre-approval of every generated question, expected answer,
+and rubric before any student sees it; (3)~student response and optional AI pre-check,
+allowing provisional analysis before final submission; (4)~conditional rubric
+visibility, in which students receive performance-band information after a genuine
+attempt, designed to support learning without enabling gaming; (5)~teacher review,
+override, and finalisation, during which all AI outputs remain provisional until
+confirmed by a teacher; (6)~student feedback and reflection, in which final
+teacher-approved feedback is delivered and students are prompted to engage with their
+learning; and (7)~comprehensive logging and auditability, in which every action,
+inference, and decision is recorded to support traceability, incident response, and
+post-market monitoring.
+
+These lifecycle stages do not each engage a single governance dimension in isolation.
+Table~1 maps the six principal governance dimensions---addressed in Sections~5
+through~10---to the lifecycle stages at which each is most directly operative.
+
+\begin{table*}[t]
+\centering
+\small
+\caption{Governance dimensions and lifecycle stage coverage.
+  CG~=~Curriculum Grounding; HO~=~Human Oversight; EX~=~Explainability;
+  MG~=~Model Governance; DG~=~Data Governance; PM~=~Post-Market Monitoring.
+  \checkmark indicates primary operative engagement.}
+\label{tab:mapping}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}p{5.8cm}cccccc@{}}
+\toprule
+\textbf{Lifecycle Stage} & \textbf{CG} & \textbf{HO} & \textbf{EX} & \textbf{MG} & \textbf{DG} & \textbf{PM} \\
+\midrule
+1.\ Assessment design           & \checkmark &            &            & \checkmark & \checkmark &            \\
+2.\ Teacher pre-approval        & \checkmark & \checkmark & \checkmark &            &            &            \\
+3.\ Student response / AI check &            &            &            & \checkmark & \checkmark &            \\
+4.\ Conditional rubric visibility &          &            & \checkmark &            &            &            \\
+5.\ Teacher review and finalisation &        & \checkmark & \checkmark &            &            &            \\
+6.\ Student feedback and reflection &        &            & \checkmark &            & \checkmark &            \\
+7.\ Logging and auditability    &            &            &            & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% ── CURRICULUM GROUNDING ─────────────────────────────────────────────────────
+\section{Curriculum Grounding and Risk Scoping}
+
+\textit{Regulatory obligation.}\quad Article~9 of the EU AI Act requires high-risk AI
+systems to operate within the limits of their intended purpose and to implement risk
+management measures that address foreseeable misuse and failure modes. For an
+educational AI system, the most direct foreseeable failure mode is the generation of
+content that drifts from the curriculum---factually incorrect, pedagogically misaligned,
+or ungrounded in the materials that the assessment is intended to evaluate.
+
+\textit{Design response.}\quad Diotima addresses hallucination architecturally rather
+than reactively. Every AI-generated question, answer, and rubric is explicitly linked to
+curriculum topics and subtopics, specified learning outcomes, Bloom's Taxonomy cognitive
+levels (\textsc{Bloom et al.}, 1956), and approved, licensed source-of-truth materials.
+
+This grounding serves three functions simultaneously. It prevents the model from
+generating content that drifts from the curriculum. It ensures that every item can
+be traced back to its source, giving teachers the visibility they need to make informed
+approval decisions. And it provides a clear basis for explaining why an item exists and
+what it is assessing---which is exactly what regulators and institutions require from
+a high-risk system.
+
+A second architectural decision is the deliberate separation of high-risk components
+from supporting infrastructure. Only two components are classified as high-risk: the
+Question, Answer and Rubric Generation Engine, and the AI Inference and Feedback Engine.
+All supporting systems---the user interfaces, workflow orchestration, data storage, and
+integration components---are explicitly outside the high-risk perimeter. Narrowing the
+high-risk scope reduces risk propagation, simplifies governance, and makes compliance
+obligations clearer and more tractable.
+
+\textit{Lifecycle coverage.}\quad Grounding operates primarily at stages~1 and~2:
+content is anchored to curriculum materials at the point of generation and verified
+against those materials during teacher pre-approval.
+
+% ── HUMAN OVERSIGHT ──────────────────────────────────────────────────────────
+\section{Human Oversight}
+
+\textit{Regulatory obligation.}\quad Article~14 of the EU AI Act requires high-risk AI
+systems to be designed and developed so that they can be effectively overseen by natural
+persons during their use. The obligation extends to enabling oversight persons to
+understand the system's capabilities and limitations, to detect and address failures,
+and to intervene on, override, or halt the system's operation.
+
+\textit{Design response.}\quad In most implementations, Article~14 compliance ends up
+as a policy statement---a layer of documentation applied over an architecture that was
+not designed with oversight in mind. Diotima takes a different approach. Human oversight
+is not declared; it is enforced by the workflow itself.
+
+The structural properties are: teachers must approve every generated assessment item
+before it reaches students; AI rubric placements are always provisional and are never
+presented as final; teachers can accept, edit, override, or entirely replace any AI
+output at any stage; and only teacher-confirmed results are stored as the authoritative
+record. Students never receive AI-generated feedback that a teacher has not reviewed.
+That is not a policy aspiration---it is a technical constraint embedded in the system.
+
+The consequences of this design are significant. Professional autonomy is preserved.
+The structural risk of over-reliance on AI outputs is prevented rather than mitigated
+after the fact. And accountability stays where it belongs---with the human professional,
+not the algorithm.
+
+\textit{Lifecycle coverage.}\quad Human oversight is operative primarily at stages~2
+and~5: the pre-approval checkpoint before content reaches students, and the review and
+finalisation stage before feedback is delivered.
+
+% ── EXPLAINABILITY ───────────────────────────────────────────────────────────
+\section{Role-Differentiated Explainability}
+
+\textit{Regulatory obligation.}\quad Article~13 of the EU AI Act requires high-risk AI
+systems to be sufficiently transparent that users can interpret the system's outputs and
+use them appropriately. Transparency obligations extend both to the users operating the
+system---in this case, teachers---and, where relevant, to the persons affected by its
+outputs---in this case, students.
+
+\textit{Design response.}\quad Explainability in Diotima is differentiated by role and
+context, because what a teacher needs to understand is not the same as what a student
+needs to understand, and the risks of over-transparency and under-transparency differ
+for each.
+
+For teachers, the system provides full visibility into the rubric, the source text from
+which assessment content was derived, and the AI's reasoning context. Every output can
+be traced back to the curriculum materials that grounded it. The pattern of rejection
+reasons and overrides constitutes an ongoing signal about model performance---a
+practical feedback loop that informs model governance decisions.
+
+For students, the explainability design is more deliberate. Rubric information is
+revealed conditionally and progressively: students see performance bands after a
+genuine attempt, not upfront. Full criteria are not disclosed in advance. This supports
+transparency about how responses are being interpreted while preserving the pedagogical
+integrity of the assessment, and it orients feedback toward improvement and next steps
+rather than terminal judgment.
+
+\textit{Lifecycle coverage.}\quad Explainability is operative at stages~2, 4, 5, and~6:
+during teacher pre-approval, at the conditional rubric visibility stage, during teacher
+review, and when feedback is delivered to students.
+
+% ── MODEL GOVERNANCE ─────────────────────────────────────────────────────────
+\section{Model Governance}
+
+\textit{Regulatory obligation.}\quad Article~9 of the EU AI Act requires high-risk AI
+providers to implement risk management measures throughout the system lifecycle,
+including identification and analysis of known and foreseeable risks, and estimation
+and evaluation of risks that may emerge from actual use. For systems using third-party
+foundation models, this obligation extends to the selection, evaluation, and ongoing
+monitoring of those models.
+
+\textit{Design response.}\quad Diotima uses third-party pretrained foundation models
+rather than training its own. That is a deliberate and defensible choice---but it does
+not mean model selection is a technical decision. In Diotima, model choice is treated
+as a governance decision.
+
+Models are evaluated and selected against a structured benchmark suite. Knowledge and
+reasoning capabilities are assessed using the Massive Multitask Language Understanding
+benchmark (MMLU; \textsc{Hendrycks et al.}, 2021a)---a 57-subject evaluation spanning
+STEM, humanities, and professional domains---and the Graduate-Level Google-Proof Q\&A
+benchmark (GPQA; \textsc{Rein et al.}, 2023), which tests expert-level reasoning across
+biology, chemistry, and physics. Factual accuracy and hallucination propensity are
+evaluated using LongFact (\textsc{Wei et al.}, 2024), which probes the reliability of
+long-form factual claims across a wide range of topics. Instruction-following behaviour
+is assessed using the Instruction Following Evaluation benchmark (IFEval;
+\textsc{Zhou et al.}, 2023), a verifiable evaluation of adherence to structured natural
+language instructions. Bias and fairness are assessed using the Bias Benchmark for
+Question Answering (BBQ; \textsc{Parrish et al.}, 2022), a hand-built benchmark
+targeting question-answering behaviour across nine social dimensions including age,
+gender, and race. Toxicity and safety are assessed using RealToxicityPrompts
+(\textsc{Gehman et al.}, 2020), which evaluates the tendency of models to produce
+harmful content across a corpus of naturally occurring prompts, supplemented by custom
+safety evaluations targeting educational contexts.
+
+No student data is used for model training at any stage. Model versions are logged
+with every inference, creating the audit trail needed for incident investigation,
+drift detection, and post-market monitoring. This approach enables evidence-based
+model selection, ongoing comparison as new models emerge, and safe substitution of
+model versions without architectural change.
+
+\textit{Lifecycle coverage.}\quad Model governance is operative at stages~1, 3,
+and~7: model selection determines what is generated at the design stage; model
+inference is used during the student response and AI pre-check stage; and model
+version logging at stage~7 supports post-market monitoring.
+
+% ── DATA GOVERNANCE ──────────────────────────────────────────────────────────
+\section{Data Governance}
+
+\textit{Regulatory obligation.}\quad Article~10 of the EU AI Act requires high-risk AI
+systems to be trained, validated, and tested on data that meets quality criteria
+including relevance, representativeness, and freedom from errors and bias. More broadly,
+data governance for systems processing personal data must be compatible with applicable
+data protection law, including the General Data Protection Regulation (GDPR). For
+educational AI systems processing student data---a category that warrants particular
+care given the vulnerability of the population---data minimisation and purpose
+limitation are foundational requirements.
+
+\textit{Design response.}\quad Data minimisation is a foundational principle in
+Diotima's design. The system processes only what is necessary: student responses,
+assessment configuration, and the metadata required to deliver formative feedback and
+support audit. There is no collection of sensitive personal categories, no behavioural
+profiling, and no use of student data to fine-tune or retrain the underlying models.
+
+Retention limits are defined and aligned with institutional Data Protection Impact
+Assessment (DPIA) requirements. Educational content---curriculum documents, licensed
+textbooks, and approved source materials---is managed under explicit publisher
+agreements covering storage, processing, and derivative use within the scope of
+Diotima's purpose.
+
+The effect is a data governance posture that protects every stakeholder simultaneously:
+students, whose assessment data is not repurposed; teachers, whose professional actions
+are logged for audit but not exposed inappropriately; publishers, whose content is
+used under clear and documented licence; and institutions, whose DPIA obligations are
+supported rather than complicated by the platform.
+
+\textit{Lifecycle coverage.}\quad Data governance is operative at stages~1, 3, 6,
+and~7: at the point of accessing source materials, when processing student responses,
+when delivering and storing feedback, and at the comprehensive logging stage.
+
+% ── POST-MARKET MONITORING ───────────────────────────────────────────────────
+\section{Post-Market Monitoring}
+
+\textit{Regulatory obligation.}\quad Article~72 of the EU AI Act requires providers of
+high-risk AI systems to establish and document a post-market monitoring system that
+actively collects and analyses data on the system's performance throughout its
+operational lifetime. Post-market monitoring is a legal obligation, not a discretionary
+quality measure---and it is where many AI governance frameworks, in practice, fail to
+deliver on their stated commitments.
+
+\textit{Design response.}\quad Diotima embeds post-market monitoring from day one as an
+operational discipline rather than an afterthought.
+
+Models are regularly re-evaluated against the benchmark suite to detect drift and
+performance degradation. Anomaly detection flags distribution shifts in AI outputs
+before they reach users. Teachers have structured channels to report harmful or
+incorrect outputs, with time-bound remediation workflows. The system is designed for
+registration in the EU high-risk AI database, with version update processes in place.
+
+The teacher approval and rejection workflow provides a continuous signal about model
+performance in real educational contexts. Rejection reasons and override patterns are
+reviewed by human governance personnel and manually entered into the risk register and
+model governance process---a structured feedback loop grounded in actual pedagogical
+use rather than synthetic evaluation. The system is designed so that this evidence of
+safe operation is generated as a byproduct of normal workflow rather than requiring
+separate data collection.
+
+\textit{Lifecycle coverage.}\quad Post-market monitoring is operative principally at
+stage~7, where comprehensive logging creates the data infrastructure for ongoing
+monitoring, but it is also informed continuously by teacher actions at stages~2 and~5.
+
+% ── COMPLIANCE AS FOUNDATION ──────────────────────────────────────────────────
+\section{Compliance-by-Design and the Path to Adoption}
+
+The EU AI Act's entry into force marks a structural shift in the conditions for market
+participation in educational technology. The obligations imposed by Annex~III---relating
+to human oversight, transparency, data governance, model evaluation, and post-market
+monitoring---are not documentation requirements. They are design requirements. Products
+that treat them as the former face a growing and ultimately unbridgeable gap between
+declared and demonstrable compliance.
+
+This gap is not hypothetical. Analysis of the educational AI supplier market suggests
+that very few products currently deployed in formal educational settings would meet the
+substantive requirements of the Act as currently written---and this pattern is not
+confined to the EU. Reports from the British Educational Suppliers Association indicate
+that as of 2025, no supplier has been confirmed compliant with the UK Department for
+Education's emerging AI standards, including products that have received government
+endorsement. The structural reason is the same in both markets: compliance was not
+designed in.
+
+Diotima's architecture responds to this directly. Because Annex~III obligations were
+treated as the design specification from the outset, the compliance posture is not
+asserted---it is verifiable. Each governance dimension documented in this paper
+corresponds to a concrete architectural or operational feature that can be examined,
+audited, and validated by an institution, a regulator, or a conformity assessment body.
+This is what distinguishes compliance-by-design from post-hoc compliance: the former
+generates evidence as a byproduct of normal operation; the latter requires it to be
+produced retrospectively, from a system not designed to produce it.
+
+The institutional implications are direct. Educational institutions considering
+AI-assisted formative assessment do not need to choose between regulatory safety and
+pedagogical capability. A system designed from first principles for Annex~III compliance
+can be simultaneously safe, transparent, and educationally serious. The architecture
+described in this paper demonstrates that compliance, far from constraining what the
+technology can do, is the foundation on which trustworthy educational AI must be built.
+
+% ── CONCLUSION ───────────────────────────────────────────────────────────────
+\section{Conclusion}
+
+The central proposition of this paper is that the EU AI Act's high-risk classification
+of educational assessment AI, rather than constraining what can be built, defines what
+must be built. A system that takes Annex~III obligations seriously as design
+requirements---grounding its outputs in approved curriculum materials, enforcing human
+oversight structurally, differentiating explainability by role, governing model
+selection and data use to evidential standards, and embedding post-market monitoring as
+an operational discipline---is not a constrained system. It is a more trustworthy, more
+auditable, and more professionally empowering one.
+
+Diotima represents one implementation of this proposition. The architecture described
+in this paper demonstrates that compliance-by-design is not a theoretical position but
+a practically achievable design outcome---one that preserves teacher professional
+authority, supports pedagogically serious formative assessment, and generates the
+evidence of safe operation that institutions and regulators require.
+
+The regulatory moment in educational technology creates an obligation that is also an
+opportunity: to build AI for education that earns institutional trust rather than
+requests it, and that places the professional judgment of teachers at the centre of
+every consequential decision about learners.
+
+% ── REFERENCES ───────────────────────────────────────────────────────────────
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+\begin{small}
+\setlength{\parskip}{3pt}
+\noindent
+\textsc{Bloom B. S., Engelhart M. D., Furst E. J., Hill W. H.} and \textsc{Krathwohl D. R.}
+(1956) \textit{Taxonomy of Educational Objectives: The Classification of Educational
+Goals. Handbook I: Cognitive Domain}. David McKay, New York.
+
+\medskip\noindent
+\textsc{European Parliament and Council of the European Union} (2024)
+Regulation (EU) 2024/1689 of the European Parliament and of the Council of
+13~June~2024 laying down harmonised rules on artificial intelligence (Artificial
+Intelligence Act), \textit{Official Journal of the European Union}, L~2024/1689.
+
+\medskip\noindent
+\textsc{Gehman S., Gururangan S., Sap M., Choi Y.} and \textsc{Smith N. A.}
+(2020) RealToxicityPrompts: Evaluating Neural Toxic Degeneration in Language
+Models, \textit{Findings of the Association for Computational Linguistics:
+EMNLP 2020}, pp.\ 3356--3369.
+
+\medskip\noindent
+\textsc{Hendrycks D., Burns C., Basart S., Zou A., Mazeika M., Song D.}
+and \textsc{Steinhardt J.} (2021a)
+Measuring Massive Multitask Language Understanding,
+\textit{International Conference on Learning Representations (ICLR 2021)},
+arXiv:2009.03300.
+
+\medskip\noindent
+\textsc{Noval Consulting} (2025)
+Diotima AI Assessment Platform: Annex~III High-Risk AI Compliance Dossier, v1.1-draft.
+Internal technical documentation, Noval Consulting, Dublin.
+
+\medskip\noindent
+\textsc{Parrish A., Chen A., Nangia N., Padmakumar V., Phang J., Thompson J.,
+Htut P. M.} and \textsc{Bowman S.} (2022) BBQ: A hand-built bias benchmark for
+question answering, \textit{Findings of the Association for Computational
+Linguistics: ACL 2022}, pp.\ 2982--2996.
+
+\medskip\noindent
+\textsc{Rein D., Hou B. L., Stickland A. C., Petty R., Pang R. Y., Dirani N.,
+Michael J.} and \textsc{Bowman S. R.} (2023) GPQA: A Graduate-Level
+Google-Proof Q\&A Benchmark,
+\textit{arXiv preprint} arXiv:2311.12022.
+
+\medskip\noindent
+\textsc{Wei J., Yang C., Song Y., Lu P., Hu E., Tran D., Peng D., Liu R.,
+Huang D., Du Y.} and \textsc{Le Q. V.} (2024) Long-form factuality in large
+language models,
+\textit{arXiv preprint} arXiv:2403.18802.
+
+\medskip\noindent
+\textsc{Zhou J., Lu P., Mishra S., Brahma S., Basu S., Luan Y., Zhou D.}
+and \textsc{Hou L.} (2023) Instruction-Following Evaluation for Large Language
+Models,
+\textit{arXiv preprint} arXiv:2311.07911.
+
+\end{small}
+
+\vspace{10pt}
+\noindent\rule{\columnwidth}{0.4pt}\\
+{\footnotesize\textit{Working paper derived from the Diotima Annex~III Technical
+Dossier (v1.1-draft, 2025). Prepared by Noval Consulting. All correspondence to
+\texttt{info@novalconsulting.ai}.}}
+
+\end{document}
