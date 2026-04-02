@@ -439,8 +439,10 @@ Question Answering (BBQ; \textsc{Parrish et al.}, 2022), a hand-built benchmark
 targeting question-answering behaviour across nine social dimensions including age,
 gender, and race. Toxicity and safety are assessed using RealToxicityPrompts
 (\textsc{Gehman et al.}, 2020), which evaluates the tendency of models to produce
-harmful content across a corpus of naturally occurring prompts, supplemented by custom
-safety evaluations targeting educational contexts.
+harmful content across a corpus of naturally occurring prompts, and SimpleSafetyTests
+(\textsc{Vidgen et al.}, 2023), a test suite of prompts spanning five harm areas
+designed to identify critical safety risks such as unsafe advice and toxic content
+generation.
 
 No student data is used for model training at any stage. Model versions are logged
 with every inference, creating the audit trail needed for incident investigation,
@@ -628,6 +630,11 @@ Google-Proof Q\&A Benchmark,
 Huang D., Du Y.} and \textsc{Le Q. V.} (2024) Long-form factuality in large
 language models,
 \textit{arXiv preprint} arXiv:2403.18802.
+
+\medskip\noindent
+\textsc{Vidgen B., Thrush T., Waseem Z.} and \textsc{Kiela D.} (2023)
+SimpleSafetyTests: a Test Suite for Identifying Critical Safety Risks in Large
+Language Models, \textit{arXiv preprint} arXiv:2311.08370.
 
 \medskip\noindent
 \textsc{Zhou J., Lu P., Mishra S., Brahma S., Basu S., Luan Y., Zhou D.}
