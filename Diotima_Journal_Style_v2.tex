@@ -186,10 +186,11 @@ The paper proceeds as follows. Section~2 establishes the regulatory context and
 identifies three foundational challenges that any serious educational AI platform must
 address. Section~3 describes Diotima's core design proposition and how it responds to
 each of those challenges. Section~4 provides a system overview, including a mapping of
-governance dimensions to lifecycle stages. Sections~5 through~10 examine the principal
-governance dimensions in turn, tracing each to its regulatory obligation and its
-expression in the system design. Section~11 examines the implications of
-compliance-by-design for market adoption. Section~12 concludes.
+governance dimensions to lifecycle stages. Section~5 examines the six principal
+governance dimensions in turn, presenting each through three lenses: the regulatory
+obligation that motivates it, a general design principle applicable to any high-risk
+educational AI system, and its specific implementation in Diotima. Section~6 examines
+the implications of compliance-by-design for market adoption. Section~7 concludes.
 
 % ── REGULATORY CONTEXT ───────────────────────────────────────────────────────
 \section{AI in Education Is High-Risk by Default}
@@ -287,8 +288,8 @@ inference, and decision is recorded to support traceability, incident response, 
 post-market monitoring.
 
 These lifecycle stages do not each engage a single governance dimension in isolation.
-Table~1 maps the six principal governance dimensions---addressed in Sections~5
-through~10---to the lifecycle stages at which each is most directly operative.
+Table~1 maps the six principal governance dimensions to the lifecycle stages at which
+each is most directly operative. The following sections examine each dimension in turn.
 
 \begin{table*}[t]
 \centering
@@ -314,8 +315,20 @@ through~10---to the lifecycle stages at which each is most directly operative.
 \end{tabular}
 \end{table*}
 
+% ── GOVERNANCE DIMENSIONS IN PRACTICE ─────────────────────────────────────────
+\section{Governance Dimensions in Practice}
+
+The following sections examine the six principal governance dimensions that structure
+Diotima's compliance posture. Each is presented through three lenses: the
+\textit{regulatory obligation} that motivates it, a \textit{general design principle}
+applicable to any high-risk educational AI system, and the \textit{specific
+implementation in Diotima} that demonstrates the principle in practice. While Diotima
+serves as the case study throughout, the design principles described here are not
+specific to any single platform---they represent a transferable framework for
+compliance-by-design in educational AI.
+
 % ── CURRICULUM GROUNDING ─────────────────────────────────────────────────────
-\section{Curriculum Grounding and Risk Scoping}
+\subsection{Curriculum Grounding and Risk Scoping}
 
 \textit{Regulatory obligation.}\quad Article~9 of the EU AI Act requires high-risk AI
 systems to operate within the limits of their intended purpose and to implement risk
@@ -324,7 +337,15 @@ educational AI system, the most direct foreseeable failure mode is the generatio
 content that drifts from the curriculum---factually incorrect, pedagogically misaligned,
 or ungrounded in the materials that the assessment is intended to evaluate.
 
-\textit{Design response.}\quad Diotima addresses hallucination architecturally rather
+\textit{General principle.}\quad High-risk educational AI systems should constrain
+generative outputs to approved, verified source materials through retrieval-augmented
+or otherwise grounded generation approaches. Content should be anchored not only to
+curriculum topics but also to appropriate complexity levels for the target learner
+population. The high-risk perimeter should be scoped deliberately to the minimum
+necessary components, so that governance obligations remain tractable and risk
+propagation is contained.
+
+\textit{In Diotima.}\quad Diotima addresses hallucination architecturally rather
 than reactively. Every AI-generated question, answer, and rubric is explicitly linked to
 curriculum topics and subtopics, specified learning outcomes, Bloom's Taxonomy cognitive
 levels (\textsc{Bloom et al.}, 1956), and approved, licensed source-of-truth materials.
@@ -349,7 +370,7 @@ content is anchored to curriculum materials at the point of generation and verif
 against those materials during teacher pre-approval.
 
 % ── HUMAN OVERSIGHT ──────────────────────────────────────────────────────────
-\section{Human Oversight}
+\subsection{Human Oversight}
 
 \textit{Regulatory obligation.}\quad Article~14 of the EU AI Act requires high-risk AI
 systems to be designed and developed so that they can be effectively overseen by natural
@@ -357,15 +378,17 @@ persons during their use. The obligation extends to enabling oversight persons t
 understand the system's capabilities and limitations, to detect and address failures,
 and to intervene on, override, or halt the system's operation.
 
-\textit{Design response.}\quad In most implementations, Article~14 compliance ends up
-as a policy statement---a layer of documentation applied over an architecture that was
-not designed with oversight in mind. Diotima takes a different approach. Human oversight
-is not declared; it is enforced by the workflow itself.
+\textit{General principle.}\quad Human oversight should be enforced as a structural
+property of the system workflow, not declared as a policy layer applied after the fact.
+The system should be technically incapable of routing AI-generated outputs to affected
+persons---in educational contexts, students---without prior review and confirmation by
+a qualified human professional. This ensures that accountability remains with the human
+decision-maker rather than being diffused across an automated pipeline.
 
-The structural properties are: teachers must approve every generated assessment item
-before it reaches students; AI rubric placements are always provisional and are never
-presented as final; teachers can accept, edit, override, or entirely replace any AI
-output at any stage; and only teacher-confirmed results are stored as the authoritative
+\textit{In Diotima.}\quad Teachers must approve every generated assessment item
+before it reaches students. AI rubric placements are always provisional and are never
+presented as final. Teachers can accept, edit, override, or entirely replace any AI
+output at any stage, and only teacher-confirmed outputs are stored as the authoritative
 record. Students never receive AI-generated feedback that a teacher has not reviewed.
 That is not a policy aspiration---it is a technical constraint embedded in the system.
 
@@ -379,7 +402,7 @@ and~5: the pre-approval checkpoint before content reaches students, and the revi
 finalisation stage before feedback is delivered.
 
 % ── EXPLAINABILITY ───────────────────────────────────────────────────────────
-\section{Role-Differentiated Explainability}
+\subsection{Role-Differentiated Explainability}
 
 \textit{Regulatory obligation.}\quad Article~13 of the EU AI Act requires high-risk AI
 systems to be sufficiently transparent that users can interpret the system's outputs and
@@ -387,16 +410,22 @@ use them appropriately. Transparency obligations extend both to the users operat
 system---in this case, teachers---and, where relevant, to the persons affected by its
 outputs---in this case, students.
 
-\textit{Design response.}\quad Explainability in Diotima is differentiated by role and
-context, because what a teacher needs to understand is not the same as what a student
-needs to understand, and the risks of over-transparency and under-transparency differ
-for each.
+\textit{General principle.}\quad Explainability should be differentiated by stakeholder
+role. System operators---typically teachers or institutional administrators---require
+full transparency into the reasoning behind AI outputs, including source materials,
+evaluation criteria, and the basis for any automated judgment. Affected
+persons---typically students---require contextually appropriate transparency that
+supports their engagement with the process without undermining the integrity of the
+assessment itself. A single undifferentiated transparency model risks either
+overwhelming students with technical detail or depriving professionals of the
+information they need to exercise meaningful oversight.
 
-For teachers, the system provides full visibility into the rubric, the source text from
-which assessment content was derived, and the AI's reasoning context. Every output can
-be traced back to the curriculum materials that grounded it. The pattern of rejection
-reasons and overrides constitutes an ongoing signal about model performance---a
-practical feedback loop that informs model governance decisions.
+\textit{In Diotima.}\quad For teachers, the system provides full visibility into the
+rubric, the source text from which assessment content was derived, and the AI's
+reasoning context. Every output can be traced back to the curriculum materials that
+grounded it. The pattern of rejection reasons and overrides constitutes an ongoing
+signal about model performance---a practical feedback loop that informs model
+governance decisions (see Section~\ref{sec:postmarket}).
 
 For students, the explainability design is more deliberate. Rubric information is
 revealed conditionally and progressively: students see performance bands after a
@@ -410,7 +439,7 @@ during teacher pre-approval, at the conditional rubric visibility stage, during 
 review, and when feedback is delivered to students.
 
 % ── MODEL GOVERNANCE ─────────────────────────────────────────────────────────
-\section{Model Governance}
+\subsection{Model Governance}
 
 \textit{Regulatory obligation.}\quad Article~9 of the EU AI Act requires high-risk AI
 providers to implement risk management measures throughout the system lifecycle,
@@ -419,7 +448,15 @@ and evaluation of risks that may emerge from actual use. For systems using third
 foundation models, this obligation extends to the selection, evaluation, and ongoing
 monitoring of those models.
 
-\textit{Design response.}\quad Diotima uses third-party pretrained foundation models
+\textit{General principle.}\quad For systems built on third-party foundation models,
+model selection should be treated as a governance decision, not a technical one. A
+structured benchmark suite---covering knowledge and reasoning, factual accuracy,
+instruction adherence, bias, and safety---provides the evidential basis for initial
+selection and ongoing monitoring. Model versions should be logged with every inference
+to support audit, incident investigation, and drift detection. No student data should
+be used for model training or fine-tuning.
+
+\textit{In Diotima.}\quad Diotima uses third-party pretrained foundation models
 rather than training its own. That is a deliberate and defensible choice---but it does
 not mean model selection is a technical decision. In Diotima, model choice is treated
 as a governance decision.
@@ -456,7 +493,7 @@ inference is used during the student response and AI pre-check stage; and model
 version logging at stage~7 supports post-market monitoring.
 
 % ── DATA GOVERNANCE ──────────────────────────────────────────────────────────
-\section{Data Governance}
+\subsection{Data Governance}
 
 \textit{Regulatory obligation.}\quad Article~10 of the EU AI Act requires high-risk AI
 systems to be trained, validated, and tested on data that meets quality criteria
@@ -467,8 +504,15 @@ educational AI systems processing student data---a category that warrants partic
 care given the vulnerability of the population---data minimisation and purpose
 limitation are foundational requirements.
 
-\textit{Design response.}\quad Data minimisation is a foundational principle in
-Diotima's design. The system processes only what is necessary: student responses,
+\textit{General principle.}\quad Data minimisation and purpose limitation should be
+foundational design constraints, not compliance additions applied after the fact.
+Educational AI systems should process only the data strictly necessary for their stated
+purpose, with no repurposing of student data for model training, behavioural profiling,
+or secondary commercial use. Where third-party educational content is used as source
+material, its governance---including storage, processing, and derivative use---should
+be treated as a first-class compliance obligation under explicit licensing agreements.
+
+\textit{In Diotima.}\quad The system processes only what is necessary: student responses,
 assessment configuration, and the metadata required to deliver formative feedback and
 support audit. There is no collection of sensitive personal categories, no behavioural
 profiling, and no use of student data to fine-tune or retrain the underlying models.
@@ -490,7 +534,8 @@ and~7: at the point of accessing source materials, when processing student respo
 when delivering and storing feedback, and at the comprehensive logging stage.
 
 % ── POST-MARKET MONITORING ───────────────────────────────────────────────────
-\section{Post-Market Monitoring}
+\subsection{Post-Market Monitoring}
+\label{sec:postmarket}
 
 \textit{Regulatory obligation.}\quad Article~72 of the EU AI Act requires providers of
 high-risk AI systems to establish and document a post-market monitoring system that
@@ -499,7 +544,15 @@ operational lifetime. Post-market monitoring is a legal obligation, not a discre
 quality measure---and it is where many AI governance frameworks, in practice, fail to
 deliver on their stated commitments.
 
-\textit{Design response.}\quad Diotima embeds post-market monitoring from day one as an
+\textit{General principle.}\quad Post-market monitoring should be designed so that
+evidence of safe operation is generated as a byproduct of normal system use, rather
+than requiring separate data collection or retrospective assembly. In educational AI
+systems, the most valuable real-world performance signal is structured feedback from
+professional users---teacher rejection reasons, override patterns, and incident
+reports---which captures information about model behaviour in authentic pedagogical
+contexts that synthetic benchmarks alone cannot replicate.
+
+\textit{In Diotima.}\quad Diotima embeds post-market monitoring from day one as an
 operational discipline rather than an afterthought.
 
 Models are regularly re-evaluated against the benchmark suite to detect drift and
