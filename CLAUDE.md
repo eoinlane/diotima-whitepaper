@@ -4,10 +4,13 @@
 White paper produced by Eoin Lane (Noval Consulting) for Diotima, an EdTech AI startup (founder: Jonathan Dempsey). The paper positions Diotima's compliance-by-design approach to AI in education, grounded in the EU AI Act.
 
 ## Working files
-- `Diotima_Journal_Style_v2.tex` — **active working file** (v2, post-reviewer feedback)
+- `Diotima_Journal_Style_v2.tex` — **active working file** (v2.2, post all reviewer feedback)
 - `Diotima_Journal_Style.tex` — archived v1, do not modify
 - `Diotima_White_Paper_Noval_Consulting.tex` — Noval Consulting variant
 - PDFs are excluded from git via `.gitignore`; use `git add -f` to force-add if needed
+
+## Paper structure (v2.2)
+7 sections. Section 5 ("Governance Dimensions in Practice") contains 6 subsections, each structured as: regulatory obligation → general principle (system-agnostic) → In Diotima → lifecycle coverage. Diotima is explicitly framed as a case study of transferable principles.
 
 ## Building
 ```
@@ -25,5 +28,7 @@ pdflatex is not on PATH — use the full path above.
 ## Key people
 - Jonathan Dempsey — Diotima founder
 - Eoin Lane — Noval Consulting, author; EU AI Act advisory, research fellow
-- Reviewers: Declan McKibben & Shunyu Ji (ADAPT), Ashish Kumar Jha (Trinity Business School), Gary White & Declan Sheehan (NTA)
+- Long Long Thanh Mai — Chief Data Scientist, Diotima (TCD, MAILT@tcd.ie)
+- Reviewers (v1): Declan McKibben & Shunyu Ji (ADAPT), Ashish Kumar Jha (Trinity Business School), Gary White & Declan Sheehan (NTA)
+- Reviewer (v2): Ian O'Keeffe
 - Jamie Cudden — Chief Digital Officer, Dublin City Council (active client)
