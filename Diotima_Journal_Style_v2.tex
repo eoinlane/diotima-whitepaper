@@ -7,7 +7,7 @@
             columnsep=7mm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{microtype}
+\usepackage[letterspace=150]{microtype}
 \usepackage{mathptmx}
 \usepackage{parskip}
 \usepackage{titlesec}
@@ -22,11 +22,23 @@
 \usepackage{authblk}
 \usepackage{abstract}
 \usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usepackage{fontawesome5}
 
 % ── colours ─────────────────────────────────────────────────────────────────
 \definecolor{darktext}{HTML}{111111}
 \definecolor{mutedgrey}{HTML}{555555}
 \definecolor{rulegrey}{HTML}{222222}
+% diagram palette
+\definecolor{accentblue}{HTML}{1A6FC4}
+\definecolor{icongreen}{HTML}{1AAB6D}
+\definecolor{iconorange}{HTML}{D4621A}
+\definecolor{iconpurple}{HTML}{7B4FBF}
+\definecolor{iconred}{HTML}{D44E1A}
+\definecolor{labelcol}{HTML}{1A1A2E}
+\definecolor{desccol}{HTML}{444455}
+\definecolor{arrowcol}{HTML}{BBBBCC}
 
 % ── hyperref ────────────────────────────────────────────────────────────────
 \hypersetup{
@@ -189,8 +201,8 @@ in regulated education markets.
 The paper proceeds as follows. Section~2 establishes the regulatory context and
 identifies three foundational challenges that any serious educational AI platform must
 address. Section~3 describes Diotima's core design proposition and how it responds to
-each of those challenges. Section~4 provides a system overview, including a mapping of
-governance dimensions to lifecycle stages. Section~5 examines the six principal
+each of those challenges. Section~4 provides a system overview, illustrated by the lifecycle
+diagram in Figure~\ref{fig:lifecycle} and the governance mapping in Table~\ref{tab:mapping}. Section~5 examines the six principal
 governance dimensions in turn, presenting each through three lenses: the regulatory
 obligation that motivates it, a general design principle applicable to any high-risk
 educational AI system, and its specific implementation in Diotima. Section~6 examines
@@ -294,9 +306,88 @@ learning; and (7)~comprehensive logging and auditability, in which every action,
 inference, and decision is recorded to support traceability, incident response, and
 post-market monitoring.
 
-These lifecycle stages do not each engage a single governance dimension in isolation.
-Table~1 maps the six principal governance dimensions to the lifecycle stages at which
-each is most directly operative. The following sections examine each dimension in turn.
+\begin{figure*}[t]
+\centering
+\resizebox{0.88\textwidth}{!}{%
+\begin{tikzpicture}[
+  stagenode/.style={inner sep=0pt, outer sep=0pt},
+  connector/.style={->, >=stealth, line width=2.5pt, color=arrowcol,
+                    shorten >=2pt, shorten <=2pt},
+]
+\def\colsep{4.8cm}
+%% Row 1
+\node[stagenode] (s1) at (0,0) {
+  \begin{minipage}{3.4cm}\centering
+    {\color{accentblue}\fontsize{28}{28}\selectfont\faBook}\\[5pt]
+    {\color{labelcol}\fontsize{9}{9}\selectfont\textbf{\textls[120]{DESIGN}}}\\[4pt]
+    {\color{desccol}\fontsize{8}{10}\selectfont
+      Curriculum-grounded\\assessment design}
+  \end{minipage}};
+\node[stagenode] (s2) at (\colsep, 0) {
+  \begin{minipage}{3.4cm}\centering
+    {\color{icongreen}\fontsize{28}{28}\selectfont\faClipboardCheck}\\[5pt]
+    {\color{labelcol}\fontsize{9}{9}\selectfont\textbf{\textls[120]{APPROVE}}}\\[4pt]
+    {\color{desccol}\fontsize{8}{10}\selectfont
+      Teacher pre-approval of\\all generated content}
+  \end{minipage}};
+\node[stagenode] (s3) at (2*\colsep, 0) {
+  \begin{minipage}{3.4cm}\centering
+    {\color{iconorange}\fontsize{28}{28}\selectfont\faPen}\\[5pt]
+    {\color{labelcol}\fontsize{9}{9}\selectfont\textbf{\textls[120]{RESPOND}}}\\[4pt]
+    {\color{desccol}\fontsize{8}{10}\selectfont
+      Student response and\\optional AI pre-check}
+  \end{minipage}};
+\node[stagenode] (s4) at (3*\colsep, 0) {
+  \begin{minipage}{3.4cm}\centering
+    {\color{iconpurple}\fontsize{28}{28}\selectfont\faEye}\\[5pt]
+    {\color{labelcol}\fontsize{9}{9}\selectfont\textbf{\textls[120]{REVEAL}}}\\[4pt]
+    {\color{desccol}\fontsize{8}{10}\selectfont
+      Conditional rubric\\visibility for students}
+  \end{minipage}};
+%% Row 2
+\def\rowgap{-3.8cm}
+\node[stagenode] (s5) at (3*\colsep, \rowgap) {
+  \begin{minipage}{3.4cm}\centering
+    {\color{accentblue}\fontsize{28}{28}\selectfont\faSearch}\\[5pt]
+    {\color{labelcol}\fontsize{9}{9}\selectfont\textbf{\textls[120]{REVIEW}}}\\[4pt]
+    {\color{desccol}\fontsize{8}{10}\selectfont
+      Teacher review, override,\\and finalisation}
+  \end{minipage}};
+\node[stagenode] (s6) at (2*\colsep, \rowgap) {
+  \begin{minipage}{3.4cm}\centering
+    {\color{icongreen}\fontsize{28}{28}\selectfont\faCommentDots}\\[5pt]
+    {\color{labelcol}\fontsize{9}{9}\selectfont\textbf{\textls[120]{REFLECT}}}\\[4pt]
+    {\color{desccol}\fontsize{8}{10}\selectfont
+      Student feedback and\\reflection}
+  \end{minipage}};
+\node[stagenode] (s7) at (\colsep, \rowgap) {
+  \begin{minipage}{3.4cm}\centering
+    {\color{iconred}\fontsize{28}{28}\selectfont\faCheckCircle}\\[5pt]
+    {\color{labelcol}\fontsize{9}{9}\selectfont\textbf{\textls[120]{AUDIT}}}\\[4pt]
+    {\color{desccol}\fontsize{8}{10}\selectfont
+      Comprehensive logging\\and auditability}
+  \end{minipage}};
+%% Connectors
+\draw[connector] ($(s1.east)-(0.1cm,0.55cm)$) -- ($(s2.west)+(0.1cm,-0.55cm)$);
+\draw[connector] ($(s2.east)-(0.1cm,0.55cm)$) -- ($(s3.west)+(0.1cm,-0.55cm)$);
+\draw[connector] ($(s3.east)-(0.1cm,0.55cm)$) -- ($(s4.west)+(0.1cm,-0.55cm)$);
+\draw[connector] ($(s4.south)+(0,-0.05cm)$) -- ($(s5.north)+(0,0.05cm)$);
+\draw[connector] ($(s5.west)+(0.1cm,-0.55cm)$) -- ($(s6.east)-(0.1cm,0.55cm)$);
+\draw[connector] ($(s6.west)+(0.1cm,-0.55cm)$) -- ($(s7.east)-(0.1cm,0.55cm)$);
+\end{tikzpicture}%
+}
+\caption{The formative assessment lifecycle. Seven stages from curriculum-grounded
+  assessment design through to comprehensive logging and audit. Stages~1--4 proceed
+  left to right; stages~5--7 return right to left. Every AI-generated output must pass
+  through a teacher approval or review gate (stages~2 and~5) before reaching students.}
+\label{fig:lifecycle}
+\end{figure*}
+
+Figure~\ref{fig:lifecycle} illustrates this lifecycle as a continuous flow from
+assessment design through to audit. These lifecycle stages do not each engage a single
+governance dimension in isolation. Table~\ref{tab:mapping} maps the six principal
+governance dimensions to the lifecycle stages at which each is most directly operative.
+The following sections examine each dimension in turn.
 
 \begin{table*}[t]
 \centering
