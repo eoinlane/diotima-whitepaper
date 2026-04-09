@@ -182,9 +182,15 @@ material harm to learners, and that ungoverned automated evaluation can progress
 displace the professional judgment on which good teaching depends.
 
 Yet the full implications of this regulatory position have not yet been fully absorbed
-by the market. Most educational AI products are designed as if compliance were a
+by the market. Evidence suggests that most educational AI products treat compliance as a
 downstream concern---a documentation task to be completed once the product is built,
 rather than a constraint that should shape every architectural decision from the outset.
+A governance assessment of AI-based assessment systems across Italian universities found
+that only 13\% of institutions had adopted AI policies by September~2025, and that
+existing documentation prioritised aspirational statements over operational mechanisms
+(\textsc{Ferrario et al.}, 2025). At the international level, an OECD review of 18
+countries found that none had issued specific regulation on the use of generative AI in
+education as of early 2024 (\textsc{OECD}, 2023).
 
 The purpose of this paper is to describe a different approach. Diotima, a
 teacher-centred formative assessment platform, serves as a case study for a set of
@@ -245,8 +251,9 @@ lead users to accept or defer to automated outputs with insufficient critical sc
 In educational assessment, this risk takes the specific form of teachers progressively
 deferring to AI-generated evaluations rather than exercising independent professional
 judgment---an outcome that Annex~III's oversight requirements are expressly designed to
-prevent. The third is \textit{the governance architecture deficit}: the majority of
-AI products currently deployed in educational settings were not designed for regulatory
+prevent. The third is \textit{the governance architecture deficit}: as documented by
+\textsc{Ferrario et al.} (2025) and the \textsc{OECD} (2023), the majority of AI
+products currently deployed in educational settings were not designed for regulatory
 alignment. Compliance has been treated as a retrospective documentation exercise,
 creating a structural gap between the obligations that high-risk systems carry and the
 architectures that purport to meet them.
@@ -644,10 +651,10 @@ deliver on their stated commitments.
 \textit{General principle.}\quad Post-market monitoring should be designed so that
 evidence of safe operation is generated as a byproduct of normal system use, rather
 than requiring separate data collection or retrospective assembly. In educational AI
-systems, the most valuable real-world performance signal is structured feedback from
-professional users---teacher rejection reasons, override patterns, and incident
-reports---which captures information about model behaviour in authentic pedagogical
-contexts that synthetic benchmarks alone cannot replicate.
+systems, structured feedback from professional users---teacher rejection reasons,
+override patterns, and incident reports---provides a particularly rich source of
+real-world performance data, capturing information about model behaviour in authentic
+pedagogical contexts that synthetic benchmarks alone cannot replicate.
 
 \textit{In Diotima.}\quad Diotima embeds post-market monitoring from day one as an
 operational discipline rather than an afterthought.
@@ -755,6 +762,12 @@ Regulation (EU) 2024/1689 of the European Parliament and of the Council of
 Intelligence Act), \textit{Official Journal of the European Union}, L~2024/1689.
 
 \medskip\noindent
+\textsc{Ferrario A., Tulli S., Bracco F.} and \textsc{Zanatto D.} (2025)
+Testing the applicability of a governance checklist for high-risk AI-based learning
+outcome assessment in Italian universities under the EU AI Act Annex~III,
+\textit{Frontiers in Artificial Intelligence}, 8, 1718613.
+
+\medskip\noindent
 \textsc{Gehman S., Gururangan S., Sap M., Choi Y.} and \textsc{Smith N. A.}
 (2020) RealToxicityPrompts: Evaluating Neural Toxic Degeneration in Language
 Models, \textit{Findings of the Association for Computational Linguistics:
@@ -771,6 +784,10 @@ arXiv:2009.03300.
 \textsc{Noval Consulting} (2025)
 Diotima AI Assessment Platform: Annex~III High-Risk AI Compliance Dossier, v1.1-draft.
 Internal technical documentation, Noval Consulting, Dublin.
+
+\medskip\noindent
+\textsc{OECD} (2023) Emerging governance of generative AI in education, in
+\textit{OECD Digital Education Outlook 2023}, OECD Publishing, Paris.
 
 \medskip\noindent
 \textsc{Parrish A., Chen A., Nangia N., Padmakumar V., Phang J., Thompson J.,

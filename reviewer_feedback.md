@@ -125,6 +125,17 @@ The white paper has been reviewed across two rounds. Six reviewers received v1 i
 
 ---
 
+### Mahsa Mahdinejad — Postdoctoral Researcher, Trinity College Dublin / University of Limerick (Diotima)
+
+- Paper looks good with good detail about the work
+- Main concern: lack of references in some places for comparative/novelty claims
+- Flagged specific sentence: "Most educational AI products are designed as if compliance were a downstream concern" — needs a supporting reference or evidence
+- General point: when claiming novelty or comparing Diotima with other work, those claims should be supported with references to related literature or existing systems
+
+**Status:** Addressed in v2.3. Added Ferrario et al. (2025) Frontiers in AI and OECD Digital Education Outlook (2023) as citations for market/compliance gap claims. Softened superlative in post-market monitoring general principle.
+
+---
+
 ## Summary of versions
 
 | Version | Tag | Key changes |
@@ -133,3 +144,4 @@ The white paper has been reviewed across two rounds. Six reviewers received v1 i
 | v2 | `v2` | All v1 reviewer feedback incorporated |
 | v2.1 | `v2.1` | Governance sections restructured with general principles |
 | v2.2 | `v2.2` | Case study framing, BESA/DfE citation, clarity edits |
+| v2.3 | `v2.3` | Added academic citations for market claims (Ferrario et al., OECD) |
