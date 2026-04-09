@@ -125,6 +125,17 @@ The white paper has been reviewed across two rounds. Six reviewers received v1 i
 
 ---
 
+### Donal Geraghty — CEO, Seapark
+
+- Very well written
+- Suggested adding a process diagram early in the paper showing all key players and items in the end-to-end process
+- Each subsequent section would then highlight the relevant part of the diagram, keeping the reader oriented to the overall flow
+- Provided visual examples of the concept
+
+**Status:** Addressed — lifecycle diagram (Figure 1) added in v2.1 using TikZ, showing the seven-stage formative assessment flow. The per-section highlighting idea was noted but not implemented (would require significant layout changes for marginal gain in a journal-format paper).
+
+---
+
 ### Mahsa Mahdinejad — Postdoctoral Researcher, Trinity College Dublin / University of Limerick (Diotima)
 
 - Paper looks good with good detail about the work
