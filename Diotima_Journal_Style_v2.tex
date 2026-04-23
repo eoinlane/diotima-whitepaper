@@ -134,9 +134,9 @@
       \begin{abstract}
         \noindent
         The EU AI Act's classification of student assessment systems as high-risk under Annex~III
-        creates both a compliance obligation and a strategic design question: what does an
-        educational AI platform look like when it is built for regulatory alignment from first
-        principles, rather than retrofitted to it? This paper describes Diotima, a
+        creates both a compliance obligation and a need to answer a strategic design question:
+        what does an educational AI platform look like when it is built for regulatory alignment
+        from first principles, rather than retrofitted to it? This paper describes Diotima, a
         teacher-centred formative assessment platform that treats Annex~III obligations not as
         constraints but as architectural foundations. By grounding all AI-generated content in
         approved curriculum materials, scoping high-risk components narrowly, enforcing human
@@ -462,13 +462,15 @@ approval decisions. And it provides a clear basis for explaining why an item exi
 what it is assessing---which is exactly what regulators and institutions require from
 a high-risk system.
 
-A second architectural decision is the deliberate separation of high-risk components
-from supporting infrastructure. Only two components are classified as high-risk: the
-Question, Answer and Rubric Generation Engine, and the AI Inference and Feedback Engine.
-All supporting systems---the user interfaces, workflow orchestration, data storage, and
-integration components---are explicitly outside the high-risk perimeter. Narrowing the
-high-risk scope reduces risk propagation, simplifies governance, and makes compliance
-obligations clearer and more tractable.
+A second architectural decision is the deliberate scoping of the high-risk AI
+perimeter within the system. Diotima as a whole operates under Annex~III; within
+it, the high-risk AI inference is concentrated in two components---the Question,
+Answer and Rubric Generation Engine, and the AI Inference and Feedback Engine---while
+supporting systems (user interfaces, workflow orchestration, data storage, and
+integration components) do not themselves execute high-risk AI functionality and
+are governed accordingly. Narrowing the internal high-risk footprint in this way
+reduces risk propagation, simplifies governance, and makes compliance obligations
+clearer and more tractable.
 
 \textit{Lifecycle coverage.}\quad Grounding operates primarily at stages~1 and~2:
 content is anchored to curriculum materials at the point of generation and verified
@@ -538,9 +540,8 @@ transparency about how responses are being interpreted while preserving the peda
 integrity of the assessment, and it orients feedback toward improvement and next steps
 rather than terminal judgment.
 
-\textit{Lifecycle coverage.}\quad Explainability is operative at stages~2, 4, 5, and~6:
-during teacher pre-approval, at the conditional rubric visibility stage, during teacher
-review, and when feedback is delivered to students.
+\textit{Lifecycle coverage.}\quad Explainability operates wherever AI outputs meet
+a human: teachers at stages~2 and~5, students at stages~4 and~6.
 
 % ── MODEL GOVERNANCE ─────────────────────────────────────────────────────────
 \subsection{Model Governance}
@@ -732,6 +733,14 @@ in this paper demonstrates that compliance-by-design is not a theoretical positi
 a practically achievable design outcome---one that preserves teacher professional
 authority, supports pedagogically serious formative assessment, and generates the
 evidence of safe operation that institutions and regulators require.
+
+Architectural foundations, however, do not on their own answer every operational
+question. Concrete metrics for measuring compliance in practice---hallucination rates,
+validation that teacher review effort is substantive rather than perfunctory, prompt
+governance and audit trails, and closed-loop mechanisms that feed teacher corrections
+back into model updates---are substantive issues in their own right. A companion paper
+will address these operational controls and the measurement frameworks required to
+evidence compliance at scale.
 
 The regulatory moment in educational technology creates an obligation that is also an
 opportunity: to build AI for education that earns institutional trust rather than
