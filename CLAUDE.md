@@ -40,3 +40,20 @@ pdflatex is not on PATH — use the full path above.
 - Tom Pollock — Commercial Development Manager, Learnovate; chairs trials panel at showcase
 - Siobhan Ryan — Trinity / Learnovate, co-presents at showcase
 - Jamie Cudden — Chief Digital Officer, Dublin City Council (active client)
+
+## Related KB
+
+The pipeline KB at `~/knowledge_base/` holds the conversation history that surrounds the whitepaper / journal. Memory dossier: `~/.claude/projects/-Users-eoin-knowledgebase-pipeline/memory/project_diotima.md` (Diotima covers both the patent/product side and the publication side; sibling sub-project `~/Documents/patents/diotima/` holds the patent track).
+
+GitHub: `eoinlane/diotima-whitepaper` (public). Distinct from `eoinlane/diotima-patent` (private), which holds the invention disclosure and product code.
+
+Top people: Cathal Bellew, Siobhan Ryan, Carl.
+
+Useful queries:
+
+```bash
+python3 ~/query_graph.py prep "Siobhan Ryan"                 # Diotima primary
+python3 ~/query_graph.py synthesise --project Diotima        # narrative trajectory
+python3 ~/query_graph.py tags --search whitepaper            # whitepaper-tagged meetings
+python3 ~/query_graph.py history "Cathal Bellew"             # full meeting history
+```
